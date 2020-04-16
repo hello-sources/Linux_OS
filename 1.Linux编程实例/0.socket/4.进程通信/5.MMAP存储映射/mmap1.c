@@ -2,7 +2,7 @@
     > File Name: mmap1.c
     > Author: ma6174
     > Mail: ma6174@163.com 
-    > Created Time: Thu 16 Apr 2020 07:38:32 PM CST
+    > Created Time: Thu 16 Apr 2020 07:40:53 PM CST
  ************************************************************************/
 #include <sys/mman.h>
 #include <sys/stat.h>
@@ -37,7 +37,8 @@ int main(int argc, char *argv[]) {
     offset = atoi(argv[2]);
     pa_offset = offset & ~(sysconf(_SC_PAGE_SIZE) - 1);
         /* offset for mmap() must be page aligned */
-
+	printf("PAGE_SIZE : %ld\n", sysconf(_SC_PAGE_SIZE));
+	printf("pa_offset : %ld\n", pa_offset);
     if (offset >= sb.st_size) {
         fprintf(stderr, "offset is past end of file\n");
         exit(EXIT_FAILURE);
@@ -47,8 +48,7 @@ int main(int argc, char *argv[]) {
         length = atoi(argv[3]);
         if (offset + length > sb.st_size)
             length = sb.st_size - offset;
-                /* Can't display bytes past end of file */
-
+            /* Can't display bytes past end of file */
     } else {    /* No length arg ==> display to end of file */
         length = sb.st_size - offset;
     }
