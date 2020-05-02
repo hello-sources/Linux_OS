@@ -19,9 +19,9 @@ else
 fi
 
 Time=`date +"%Y-%m-%d__%H:%M:%S"`
+cnt=0
 
 if [[ ${cpunum} -gt 0 ]]; then
-	cnt=0
 	for i in ${cpupid[*]}; do
 		eval `ps -aux -h -q $i | awk -v num=${cnt}\
 			'{ if ($3 < 50) {exit} else{printf("Pname["num"]=%s;Pid["num"]=%d;User["num"]=%s;CpuP["num"]=%.2f;MemP["num"]=%.2f", $11, $2, $1, $3, $4)}}'`
@@ -30,7 +30,6 @@ if [[ ${cpunum} -gt 0 ]]; then
 fi
 
 if [[ ${memnum} -gt 0 ]]; then
-	cnt=0
 	for i in ${mempid[*]}; do
 		eval `ps -aux -h -q $i | awk -v num=${cnt}\
 			'{ if ($4 < 50) {exit} else{printf("Pname["num"]=%s;Pid["num"]=%d;User["num"]=%s;CpuP["num"]=%.2f;MemP["num"]=%.2f", $11, $2, $1, $3, $4)}}'`
