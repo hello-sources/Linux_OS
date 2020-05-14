@@ -16,7 +16,7 @@ $ ssh-keygen
 
 > 这样我们就会有以下文件
 
-<img src="C:\Users\32458\AppData\Roaming\Typora\typora-user-images\image-20200225222205682.png" alt="image-20200225222205682" style="zoom:80%;" />
+![image](https://github.com/hello-sources/Relative_Things/blob/master/img/Linux_OS_img/GitHub%E9%85%8D%E7%BD%AE.png?raw=true)
 
 > 我们使用以下命令把对应的密钥复制一下，放到GitHub网站对应的ssh密钥设置中去添加密钥即可，在setting->SSH and GPG keys中
 
