@@ -95,7 +95,7 @@ $ git remote rename "原名称" "新名称"
 
 下图就是对应git工作原理
 
-<img src="C:\Users\32458\AppData\Roaming\Typora\typora-user-images\bg2015120901.png" alt="bg2015120901" style="zoom:80%;" />
+![image](https://github.com/hello-sources/Relative_Things/blob/master/img/Linux_OS_img/GitHub%E4%BF%A1%E6%81%AF.png?raw=true)
 
 >- Workspace：工作区
 >- Index / Stage：暂存区
