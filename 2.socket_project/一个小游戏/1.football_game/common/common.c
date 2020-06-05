@@ -12,7 +12,6 @@ char *get_value(char *path, char *key) {
     FILE *fp = NULL;
     ssize_t nrd;
     char *line = NULL, *sub = NULL;
-    extern char conf_ans[50];
     size_t linecap;
 
     if (path == NULL || key == NULL) {
