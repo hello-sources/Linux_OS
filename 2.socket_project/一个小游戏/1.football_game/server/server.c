@@ -17,12 +17,12 @@ char *conf = "./server.conf";
 struct User *rteam;
 struct User *bteam;
 int data_port;
-
+int port = 0;
 pthread_t draw_t;
 // struct Map court;
 
 int main(int argc, char **argv) {
-    int opt, port = 0, listener, epoll_fd;
+    int opt, listener, epoll_fd;
     while ((opt = getopt(argc, argv, "p:")) != -1) {
         switch (opt) {
             case 'p':
@@ -74,7 +74,6 @@ int main(int argc, char **argv) {
     ev.data.fd = listener;
 
     epoll_ctl(epoll_fd, EPOLL_CTL_ADD, listener, &ev);
-    struct LogData lg;
     struct sockaddr_in client;
     socklen_t len = sizeof(client);
 
