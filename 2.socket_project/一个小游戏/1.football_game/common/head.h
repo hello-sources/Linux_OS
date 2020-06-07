@@ -30,4 +30,5 @@
 #include "./global.h"
 #include "./color.h"
 #include "./common.h"
+#include "../datatype.h"
 #endif
