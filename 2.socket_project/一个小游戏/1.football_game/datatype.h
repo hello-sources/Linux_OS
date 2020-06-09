@@ -1,40 +1,44 @@
 /*************************************************************************
-    > File Name: datatype.h
-    > Author: ltw
-    > Mail: 3245849061@qq.com 
-    > Created Time: Sat 06 Jun 2020 08:24:06 PM CST
+	> File Name: datatype.h
+	> Author: ltw
+	> Mail: 3245849061@qq.com
+	> Github: https://github.com/hello-sources
+	> Created Time: Mon 08 Jun 2020 09:28:22 PM CST
  ************************************************************************/
 
 
-struct LogRequest {
+#ifndef _DATATYPE_H
+#define _DATATYPE_H
+struct LogRequest{
     char name[20];
-    int team;  // 0 RED 1 BLUE
+    int team; //0 RED 1 BLUE
     char msg[512];
 };
 
-struct LogResponse {
+struct LogResponse{
     int type; //0 success 1 failed
     char msg[512];
 };
 
-struct Point {
-    int x, y;
+struct Point{
+    int x;
+    int y;
 };
 
-struct User {
+struct User{
     int team;
     char name[20];
-    int flag;
+    int flag; // 未响应次数
     struct sockaddr_in addr;
     struct Point loc;
 };
 
 struct Map {
     int width;
-    int height;
+    int heigth;
     struct Point start;
     int gate_width;
-    int gate_height;
+    int gate_heigth;
 };
 
 struct Ctrl {
@@ -42,9 +46,10 @@ struct Ctrl {
     int kick;
 };
 
-struct TransMsg {
+struct TransMsg{
     int dirx;
     int diry;
     struct Ctrl ctrl;
 };
 
+#endif

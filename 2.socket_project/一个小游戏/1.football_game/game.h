@@ -83,15 +83,15 @@ void init_football() {
     init_pair(6, COLOR_BLUE, COLOR_BLACK);
 
     Football =
-        create_newwin(court.width, court.height, court.start.x, court.start.y);
+        create_newwin(court.width, court.heigth, court.start.x, court.start.y);
     Message = create_newwin(court.width, 5, court.start.x,
-                            court.start.y + court.height);
-    Help = create_newwin(20, court.height, court.start.x + court.width,
+                            court.start.y + court.heigth);
+    Help = create_newwin(20, court.heigth, court.start.x + court.width,
                          court.start.y);
     Score = create_newwin(20, 5, court.start.x + court.width,
-                          court.start.y + court.height);
+                          court.start.y + court.heigth);
     Write = create_newwin(court.width + 20, 5, court.start.x,
-                          court.start.y + court.height + 5);
+                          court.start.y + court.heigth + 5);
     return;
 }
 
