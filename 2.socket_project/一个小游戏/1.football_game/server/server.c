@@ -1,15 +1,14 @@
 /*************************************************************************
-    > File Name: server.c
-    > Author: ltw
-    > Mail: 3245849061@qq.com 
-    > Created Time: Tue 02 Jun 2020 06:11:59 PM CST
+	> File Name: server.c
+	> Author: ltw
+	> Mail: 3245849061@qq.com
+	> Github: https://github.com/hello-sources
+	> Created Time: Mon 08 Jun 2020 09:31:19 PM CST
  ************************************************************************/
 
-
-#include "../common/common.h"
+#include "../common/udp_epoll.h"
 #include "../common/head.h"
 #include "../common/udp_server.h"
-#include "../common/udp_epoll.h"
 #include "../game.h"
 
 char *conf = "./server.conf";
@@ -18,11 +17,12 @@ struct User *rteam;
 struct User *bteam;
 int data_port;
 int port = 0;
-pthread_t draw_t;
-// struct Map court;
+
+//struct Map court;
 
 int main(int argc, char **argv) {
     int opt, listener, epoll_fd;
+    pthread_t draw_t;
     while ((opt = getopt(argc, argv, "p:")) != -1) {
         switch (opt) {
             case 'p':
@@ -43,9 +43,8 @@ int main(int argc, char **argv) {
 
     if (!port) port = atoi(get_value(conf, "PORT"));
     data_port = atoi(get_value(conf, "DATAPORT"));
-
     court.width = atoi(get_value(conf, "COLS"));
-    court.height = atoi(get_value(conf, "LINES"));
+    court.heigth = atoi(get_value(conf, "LINES"));
     court.start.x = 1;
     court.start.y = 1;
 
@@ -57,7 +56,7 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
-    DBG(GREEN "INFO" NONE " : Server start on Port %d\n", port);
+    DBG(GREEN"INFO"NONE" : Server start on Port %d\n", port);
 
     //pthread_create(&draw_t, NULL, draw, NULL);
 
@@ -78,25 +77,26 @@ int main(int argc, char **argv) {
     socklen_t len = sizeof(client);
 
     while (1) {
-        w_gotoxy_puts(Message, 1, 1, "Waiting for connect...");
-        wrefresh(Message);
-        DBG(YELLOW "EPOLL" NONE " : Before epoll_wait\n");
+        //w_gotoxy_puts(Message, 1, 1, "Waiting for login");
+        //wrefresh(Message);
+        DBG(YELLOW"EPOLL"NONE" :  before epoll_wait\n");
         int nfds = epoll_wait(epoll_fd, events, MAX * 2, -1);
-        DBG(YELLOW "EPOLL" NONE " : After epoll_wait\n");
+        DBG(YELLOW"EPOLL"NONE" :  After epoll_wait\n");
 
-
-        for (int i = 0; i < nfds; ++i) {
+        for (int i = 0; i < nfds; i++) {
             char buff[512] = {0};
-            DBG(YELLOW "EPOLL" NONE " : Doing with %dth fd\n", i);
+            DBG(YELLOW"EPOLL"NONE" :  Doing with %dth fd\n", i);
             if (events[i].data.fd == listener) {
+                //accept();
                 udp_accept(epoll_fd, listener);
             } else {
                 recv(events[i].data.fd, buff, sizeof(buff), 0);
-                printf(PINK "RECV" NONE " : %s\n", buff);
+                printf(PINK"RECV"NONE" : %s\n", buff);
             }
-            // char info[1024] = {0};
-            // w_gotoxy_puts(Message, 1, 2, info);
+            //char info[1024] = {0};
+            //w_gotoxy_puts(Message, 1, 2, info);
         }
+
     }
     return 0;
 }
