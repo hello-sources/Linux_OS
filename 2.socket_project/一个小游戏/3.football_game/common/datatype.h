@@ -63,6 +63,8 @@ struct TransMsg{
 struct FootBallMsg {
     int type;
     int size;
+    int team;
+    char name[20];
     char msg[MAXMSG];
 };
 

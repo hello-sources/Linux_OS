@@ -9,7 +9,7 @@
 #include "../common/head.h"
 #include "../common/udp_client.h"
 #include "../common/client_recver.h"
-#include "../game.h"
+#include "../common/game.h"
 
 char server_ip[20] = {0};
 int server_port = 0;
@@ -83,7 +83,6 @@ int main(int argc, char **argv) {
 
     socklen_t len = sizeof(server);
     
-    //pthread_create(&draw_t, NULL, draw, NULL);
    
     DBG(GREEN"INFO"NONE" : server_ip = %s, server_port = %d, name = %s, team = %s, logmsg = %s\n", server_ip, server_port, request.name, (request.team ? "BLUE" : "RED"), request.msg);
 
@@ -119,17 +118,23 @@ int main(int argc, char **argv) {
 
 	DBG(GREEN"SERVER : "NONE" %s \n", response.msg);
 	connect(sockfd, (struct sockaddr *)&server, len);
-    
+#ifndef _D 
+    pthread_create(&draw_t, NULL, draw, NULL);
+#endif
+
     pthread_create(&recv_t, NULL, client_recv, NULL);
     while (1) {
         struct FootBallMsg msg;
         memset(msg.msg, 0, sizeof(msg.msg));
         msg.type = FT_MSG;
         DBG(YELLOW"Input Message : "NONE);
-        fflush(stdout);
-        scanf("%[^\n]s", msg.msg);
-        getchar();
-        if (strlen(msg.msg)) send(sockfd, (void *)&msg, sizeof(msg), 0);
+        w_gotoxy_puts(Write, 1, 1, "Input Message : ");
+        //fflush(stdout);
+        mvwscanw(Write, 2, 1, "%[^\n]s", msg.msg);
+        //scanf("%[^\n]s", msg.msg);
+        //getchar();
+        if (strlen(msg.msg)) 
+            send(sockfd, (void *)&msg, sizeof(msg), 0);
     }
 
     sleep(10);

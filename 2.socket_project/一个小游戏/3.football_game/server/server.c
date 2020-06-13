@@ -9,7 +9,7 @@
 #include "../common/udp_epoll.h"
 #include "../common/head.h"
 #include "../common/udp_server.h"
-#include "../game.h"
+#include "../common/game.h"
 #include "../common/thread_pool.h"
 #include "../common/sub_reactor.h"
 #include "../common/heart_beat.h"
@@ -63,7 +63,9 @@ int main(int argc, char **argv) {
 
     DBG(GREEN"INFO"NONE" : Server start on Port %d\n", port);
 
-    //pthread_create(&draw_t, NULL, draw, NULL);
+#ifndef _D
+    pthread_create(&draw_t, NULL, draw, NULL);
+#endif
 
     epoll_fd = epoll_create(MAX * 2);
     repollfd = epoll_create(MAX);
@@ -91,25 +93,28 @@ int main(int argc, char **argv) {
     epoll_ctl(epoll_fd, EPOLL_CTL_ADD, listener, &ev);
     struct sockaddr_in client;
     socklen_t len = sizeof(client);
-
+        
+    Show_Message(,, "Waiting for Login.", 1);
     while (1) {
         //w_gotoxy_puts(Message, 1, 1, "Waiting for login");
         //wrefresh(Message);
-        //DBG(YELLOW"Main Thread"NONE" :  before epoll_wait\n");
+        DBG(YELLOW"Main Thread"NONE" :  before epoll_wait\n");
         int nfds = epoll_wait(epoll_fd, events, MAX * 2, -1);
-        //DBG(YELLOW"Main Thread"NONE" :  After epoll_wait\n");
+        DBG(YELLOW"Main Thread"NONE" :  After epoll_wait\n");
 
         for (int i = 0; i < nfds; i++) {
             struct User user;
             char buff[512];
             memset(buff, 0, sizeof(buff));
-            //DBG(YELLOW"EPOLL"NONE" :  Doing with %dth fd\n", i);
+            DBG(YELLOW"EPOLL"NONE" :  Doing with %dth fd\n", i);
             if (events[i].data.fd == listener) {
                 //accept();
                 int new_fd = udp_accept(epoll_fd, listener, &user);
                 if (new_fd > 0) {
-                    //DBG(YELLOW"Main Thread"NONE" : Add %s to %s sub_reactor\n", user.name, (user.team ? "BLUE" : "RED"));
+                    sprintf(buff, "%s login the Game.", user.name);
+                    DBG(YELLOW"Main Thread"NONE" : Add %s to %s sub_reactor\n", user.name, (user.team ? "BLUE" : "RED"));
                     add_to_sub_reactor(&user);
+                    Show_Message(,, buff, 1);
                 }
             } else {
                 recv(events[i].data.fd, buff, sizeof(buff), 0);

@@ -8,11 +8,13 @@
 
 #include "thread_pool.h"
 #include "udp_epoll.h"
+#include "game.h"
 
 extern int repollfd, bepollfd;
 
 void do_echo(struct User *user) {
     struct FootBallMsg msg;
+    char tmp[512] = {0};
     int size = recv(user->fd, (void *)&msg, sizeof(msg), 0);
     user->flag = 10;
     if (msg.type & FT_ACK) {
@@ -25,9 +27,14 @@ void do_echo(struct User *user) {
             DBG(L_BLUE" %s : %s\n"NONE, user->name, msg.msg);
         else 
             DBG(L_RED" %s : %s\n"NONE,user->name, msg.msg);
+        strcpy(msg.name, user->name);
+        msg.team = user->team;
+        Show_Message(, user, msg.msg, );
         send(user->fd, (void *)&msg, sizeof(msg), 0);
     } else if (msg.type & FT_FIN) {
         DBG(RED"%s logout.\n", user->name);
+        sprintf(tmp, "%s Logout.", user->name);
+        Show_Message(, NULL, tmp, 1);
         user->online = 0;
         int epollfd_tmp = (user->team ? bepollfd : repollfd);
         del_event(epollfd_tmp, user->fd);
