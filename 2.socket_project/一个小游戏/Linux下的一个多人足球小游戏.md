@@ -6,7 +6,7 @@
 
 
 
-![image-20200530210405244](C:\Users\32458\AppData\Roaming\Typora\typora-user-images\image-20200530210405244.png)
+![image](https://github.com/hello-sources/Relative_Things/blob/master/img/Linux_OS_img/Linux%E8%B6%B3%E7%90%83%E6%B8%B8%E6%88%8F.png?raw=true)
 
 
 
