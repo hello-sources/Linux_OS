@@ -1,0 +1,6 @@
+﻿1>------ 已启动生成: 项目: 带作业, 配置: Debug Win32 ------
+1>Assembling zuoye.asm...
+1>zuoye.asm(1): fatal error A1000: cannot open file : E:\lrvine\lrvine32.inc
+1>F:\软件\MSBuild\Microsoft\VC\v160\BuildCustomizations\masm.targets(69,5): error MSB3721: 命令“ml.exe /c /nologo /Zi /Fo"Debug\zuoye.obj" /W3 /errorReport:prompt  /Tazuoye.asm”已退出，返回代码为 1。
+1>已完成生成项目“带作业.vcxproj”的操作 - 失败。
+========== 生成: 成功 0 个，失败 1 个，最新 0 个，跳过 0 个 ==========
