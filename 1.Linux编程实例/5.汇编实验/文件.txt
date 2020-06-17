@@ -1,0 +1,50 @@
+INCLUDE Irvine32.inc
+
+.data
+data SBYTE 100,65,32,-50,-30,-60,80,120;数字可以自己随便改，数量不限制，数值在-127—128之间
+i BYTE 0;存储循环的次数
+max BYTE 0;存储最大值
+n BYTE 0;存储现在到达数组的位置
+stra BYTE "负数共有",0
+strb BYTE "所有数中最大值",0
+
+.code
+main PROC
+mov eax,0；所有数
+mov ebx,0；存储负数个数
+mov ecx,0;
+mov ecx,sizeof data;将数组的个数存储至ecx中
+L1:
+		mov i,cl;;将ecx中的值赋予至i中,cl代表ecx后八位（后面不再赘述），loop代表循环，ecx代表循环的次数，用i来存储还要循环几次
+		mov al,n;al代表eax后八位,将n的值给eax
+
+		mov cl,max;将max的值赋予ecx
+		cmp data[eax],cl;比较数组当前位置的值和最大值哪个大
+		jl M1;如果最大值大，跳转至M1
+		mov cl,data[eax];如果数组当前位置的值大则将数组当前位置的值赋予cl
+		M1:
+		mov max,cl;ecx再把值给max;
+		cmp data[eax],0;比较数组中这个数是否是负数
+		jge M2;如果是正数，程序跳转至M2;如果是负数，执行下一条语句
+		inc ebx;ebx用来存储负数的个数，负数个数加一
+		M2:
+		inc eax;eax自增1
+		mov n,al;再将al的值给n，n的作用就相当于数组[]内那个值
+		mov cl,i;用i来存储还要循环几次
+	loop L1;若未到循环次数，则跳至L1继续循环
+	mov edx,offset stra
+	call WriteString;这两句是将第一句话打印到屏幕
+	mov eax, ebx;向eax中传送负数的个数
+	call writedec;在屏幕上将该数字打印
+	mov dh,3
+	mov dl,1
+	call Gotoxy ;将光标移至第3行继续打印
+	mov edx,offset strb
+	call WriteString;这两句是将第二句话打印到屏幕
+	mov al,max
+	mov ebx,TYPE BYTE
+	call writehexb;将最大值以16进制的形式输出
+
+		
+	main ENDP
+	end main
